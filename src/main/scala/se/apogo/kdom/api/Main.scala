@@ -36,8 +36,6 @@ object Main extends App
     ////////////// GAMES ////////////////
 
     get("/games/:gameId", (request, response) => {
-      response.`type`("application/json")
-
       toJsonWithHttpStatus(response) {
         findGameState(request).map(new ModelConverter().toRepresentation)
       }
@@ -127,6 +125,7 @@ object Main extends App
 
   private def toJsonWithHttpStatus(response: Response, onSuccess: Int = HttpStatus.OK_200, onFail: Int = HttpStatus.NOT_FOUND_404)
                                   (result: Option[JsonSerializable]): String = {
+    response.`type`("application/json")
     (result match {
       case Some(value) => {
         response.status(onSuccess)

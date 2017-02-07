@@ -38,7 +38,11 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
   def players: Set[Player] = kingdoms.map(_.owner)
 
   def numberOfMeeples: Int = {
-    meeplesNotYetInPlay.size + previousDraft.numberOfMeeples + currentDraft.numberOfMeeples
+    players.size match {
+      case 2 => 4
+      case 3 => 3
+      case 4 => 4
+    }
   }
 
   def meeples: Set[Meeple] = {
@@ -95,7 +99,7 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
     // No domino is placed if it isn't possible to place it
     val newKingdom: Kingdom = move.placedDomino.map(kingdom.placeDomino).getOrElse(kingdom)
 
-    val previousDraftAfterMove: Draft = move.placedDomino.map(_ => previousDraft.removeNext).getOrElse(Draft.empty)
+    val previousDraftAfterMove: Draft = if (!previousDraft.isEmpty) previousDraft.removeNext else Draft.empty
 
     // During the last round, no dominoes are chosen in the current draft
     val currentDraftAfterMove: Draft = move.chosenDomino.map(chosenDomino => currentDraft.choose(move.meeple, chosenDomino)).getOrElse(Draft.empty)

@@ -14,7 +14,7 @@ class ApiTest {
 
   implicit val formats = DefaultFormats
 
-  @Test
+  @Test(enabled = false)
   def test_playGame(): Unit = {
     val response = http(POST(apiUrl + "/new-games/"))
 

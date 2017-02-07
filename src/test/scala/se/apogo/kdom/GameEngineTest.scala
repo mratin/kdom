@@ -26,6 +26,7 @@ class GameEngineTest {
 
   private def playGame(engine: GameEngine, game: Game, moveChooser: GreedyScoreMoveChooser): Game =
   {
+    println(s"Round: ${game.round}")
     if (game.isGameOver)
     {
       // Compute Scores

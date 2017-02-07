@@ -99,10 +99,14 @@ object Main extends App
 
     post("/new-games/:gameId/join/:playerName", (request, response) => {
       toJsonWithHttpStatus(response) {
+        val callbackUrl: Option[String] = Option(request.queryParams("callbackUrl"))
         for {
-          player <- State.joinGame(UUID.fromString(request.params("gameId")), request.params("playerName"))
+          player <- State.joinGame(
+            UUID.fromString(request.params("gameId")),
+            request.params("playerName"),
+            callbackUrl)
         } yield {
-          PlayerWithToken(player.name, player.uuid.toString)
+          PlayerWithToken(player.name, player.uuid.toString, callbackUrl)
         }
       }
     })

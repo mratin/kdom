@@ -12,7 +12,7 @@ case class DraftDomino(player: Option[Player], domino: Domino) extends JsonSeria
 case class Draft(dominoes: Seq[DraftDomino]) extends JsonSerializable
 
 case class Player(name: String) extends JsonSerializable
-case class PlayerWithToken(name: String, uuid: String) extends JsonSerializable
+case class PlayerWithToken(name: String, uuid: String, callBackUrl: Option[String]) extends JsonSerializable
 
 case class Position(row: Int, col: Int)
 

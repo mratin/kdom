@@ -87,8 +87,9 @@ object Main extends App
 
     post("/new-games/", (request, response) => {
       toJsonWithHttpStatus(response, onSuccess = HttpStatus.CREATED_201, onFail = HttpStatus.BAD_REQUEST_400) {
+        val playerCount: String = Option(request.queryParams("playerCount")).getOrElse("4")
         for {
-          numberOfPlayers <- Some(4) //TODO read request input
+          numberOfPlayers <- Try(playerCount.toInt).toOption
         } yield {
           val newGame: NewGame =  State.createGame(numberOfPlayers)
 

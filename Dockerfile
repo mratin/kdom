@@ -9,4 +9,4 @@ ADD src /code/src
 
 RUN mvn package
 
-CMD ["java", "-Djetty.port=80", "-jar", "target/kdom-service-jar-with-dependencies.jar"]
+CMD ["java", "-Djetty.port=80", "-jar", "target/kdom-0.1-SNAPSHOT-jar-with-dependencies.jar"]

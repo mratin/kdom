@@ -21,24 +21,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>de.sciss</groupId>-->
-        <!--<artifactId>jacop</artifactId>-->
-        <!--<version>3.3.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.intellij</groupId>-->
-        <!--<artifactId>forms_rt</artifactId>-->
-        <!--<version>5.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.typesafe.akka</groupId>-->
-        <!--<artifactId>akka-actor_2.10</artifactId>-->
-        <!--<version>2.2.0</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
@@ -133,25 +115,9 @@
                         <jvmArg>-Xms2048m</jvmArg>
                         <jvmArg>-Xmx4096m</jvmArg>
                     </jvmArgs>
-                    <!--<recompileMode>incremental</recompileMode>-->
-                    <!--<useZincServer>true</useZincServer>-->
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <finalName>kdom</finalName>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>se.apogo.kdom.api.Main</mainClass>
-                            <classpathPrefix>dependency-jars/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -161,29 +127,30 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-assembly-plugin</artifactId>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>attached</goal>-->
-                        <!--</goals>-->
-                        <!--<phase>package</phase>-->
-                        <!--<configuration>-->
-                            <!--<finalName>kdom</finalName>-->
-                            <!--<descriptorRefs>-->
-                                <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
-                            <!--</descriptorRefs>-->
-                            <!--<archive>-->
-                                <!--<manifest>-->
-                                    <!--<mainClass>se.apogo.kdom.Main</mainClass>-->
-                                <!--</manifest>-->
-                            <!--</archive>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>se.apogo.kdom.api.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>

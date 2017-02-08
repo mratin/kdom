@@ -8,9 +8,9 @@ class KingdomSizeValidator(maxDimension: Int = 5) {
       val minRow = positions.map(_.row).min
       val maxRow = positions.map(_.row).max
       val minCol = positions.map(_.col).min
-      val maxCol = positions.map(_.col).min
+      val maxCol = positions.map(_.col).max
 
-      maxRow - minRow <= maxDimension && maxCol - minCol <= maxDimension
+      maxRow - minRow < maxDimension && maxCol - minCol < maxDimension
     }
   }
 }

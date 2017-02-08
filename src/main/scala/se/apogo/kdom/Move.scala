@@ -4,9 +4,6 @@ case class Move(moveNumber: Int,
                 meeple: Meeple,
                 chosenDomino: Option[Domino],
                 placedDomino: Option[PlacedDomino]) extends Ordered[Move] {
-  require(chosenDomino.isDefined || placedDomino.isDefined)
-  require(chosenDomino != placedDomino.map(_.domino))
-
   def player: Player = meeple.owner
 
   override def compare(that: Move): Int = {

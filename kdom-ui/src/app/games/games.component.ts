@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {KdomService} from "../kdom.service";
-import {Game} from "../api/game";
+import {Game} from "../api/model";
 
 @Component({
   selector: 'app-games',

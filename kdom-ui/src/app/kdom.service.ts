@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Game} from "./api/game";
+import {Game} from "./api/model";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {environment} from "../environments/environment";

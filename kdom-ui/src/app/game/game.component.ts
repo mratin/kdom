@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {KdomService} from "../kdom.service";
-import {Game} from "../api/game";
+import {Game} from "../api/model";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({

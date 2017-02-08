@@ -7,13 +7,17 @@ import { RouterModule }   from '@angular/router';
 import { AppComponent } from './app.component';
 import {GamesComponent} from "./games/games.component";
 import { GameComponent } from './game/game.component';
-
+import { KingdomComponent } from './kingdom/kingdom.component';
+import { TileComponent } from './tile/tile.component';
+import { AlertModule } from 'ng2-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     GamesComponent,
-    GameComponent
+    GameComponent,
+    KingdomComponent,
+    TileComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,9 @@ import { GameComponent } from './game/game.component';
         component: GamesComponent
       }
 
-    ])
+    ]),
+
+    AlertModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

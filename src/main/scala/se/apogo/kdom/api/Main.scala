@@ -9,7 +9,7 @@ import org.eclipse.jetty.http.HttpStatus
 import se.apogo.kdom.{AvailablePlacements, GameEngine}
 import se.apogo.kdom.api.model._
 import se.apogo.kdom.state.{GameState, NewGame, State}
-import spark.{Request, Response}
+import spark.{Request, Response, Spark}
 
 import scala.util.Try
 
@@ -22,6 +22,8 @@ object Main extends App
     val defaultPort = 8080
     val jettyPort: Int = Option(System.getProperties.getProperty("jetty.port")).map(_.toInt).getOrElse(defaultPort)
     port(jettyPort)
+
+    Spark.staticFiles.location("/public")
 
     before((request, response) => {
       logger.info(s"Request: ${request.requestMethod} ${request.url}")

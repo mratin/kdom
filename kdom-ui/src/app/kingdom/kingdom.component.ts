@@ -1,6 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {KdomService} from "../kdom.service";
-import {Kingdom, Tile, PlacedTile} from "../api/model";
+import {Component, OnInit, Input} from "@angular/core";
+import {Kingdom, Tile} from "../api/model";
 
 @Component({
   selector: 'app-kingdom',

@@ -1,10 +1,8 @@
 <div>
   <h3>{{ kingdom.player.name }}</h3>
-  <table>
-    <tr *ngFor="let row of rows">
-      <td *ngFor="let col of cols" style="width: 20px; height: 20px;">
-        <app-tile [tile]="getTile(row, col)"></app-tile>
-      </td>
-    </tr>
-  </table>
+  <div>
+    <div *ngFor="let row of rows" style="display: block;">
+      <app-tile *ngFor="let col of cols" [tile]="getTile(row, col)" style="display: inline-block;"></app-tile>
+    </div>
+  </div>
 </div>

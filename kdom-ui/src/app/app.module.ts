@@ -34,7 +34,7 @@ import { AlertModule } from 'ng2-bootstrap';
         component: GamesComponent
       }
 
-    ]),
+    ], { useHash: true }),
 
     AlertModule.forRoot()
   ],

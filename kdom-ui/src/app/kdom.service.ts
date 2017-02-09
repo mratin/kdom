@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Game} from "./api/model";
+import {NewGame} from "./api/model";
 import {Http} from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 import {environment} from "../environments/environment";
@@ -22,6 +23,13 @@ export class KdomService {
     return this.http.get(this.apiBaseUrl + "games/")
       .toPromise()
       .then(response => response.json().games as Game[])
+      .catch(this.handleError)
+  }
+
+  getNewGames(): Promise<NewGame[]> {
+    return this.http.get(this.apiBaseUrl + "new-games/")
+      .toPromise()
+      .then(response => response.json().newGames as NewGame[])
       .catch(this.handleError)
   }
 

@@ -12,6 +12,7 @@ import { TileComponent } from './tile/tile.component';
 import { AlertModule } from 'ng2-bootstrap';
 import { DraftComponent } from './draft/draft.component';
 import { DraftDominoComponent } from './draft-domino/draft-domino.component';
+import { NewGamesComponent } from './new-games/new-games.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DraftDominoComponent } from './draft-domino/draft-domino.component';
     KingdomComponent,
     TileComponent,
     DraftComponent,
-    DraftDominoComponent
+    DraftDominoComponent,
+    NewGamesComponent
   ],
   imports: [
     BrowserModule,
@@ -34,8 +36,17 @@ import { DraftDominoComponent } from './draft-domino/draft-domino.component';
         component: GameComponent
       },
       {
-        path: '',
+        path: 'games',
         component: GamesComponent
+      },
+      {
+        path: 'new-games',
+        component: NewGamesComponent
+      },
+      {
+        path: '',
+        redirectTo: 'games',
+        pathMatch: 'full'
       }
 
     ], { useHash: true }),

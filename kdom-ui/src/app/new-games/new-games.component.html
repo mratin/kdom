@@ -1,0 +1,16 @@
+<div>
+  <h1>New Games</h1>
+  <table class="table">
+    <thead>
+    <tr><th>Game Id</th><th>Player Count</th><th>Last Update</th><th>Players</th></tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let newGame of newGames">
+      <td>{{ newGame.uuid }}</td>
+      <td>{{ newGame.joinedPlayers.length }} / {{ newGame.numberOfPlayers }}</td>
+      <td>{{ newGame.updated }}</td>
+      <td>{{ formattedPlayers(newGame) }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

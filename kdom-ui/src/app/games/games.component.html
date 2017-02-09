@@ -1,8 +1,16 @@
 <div>
   <h1>Games</h1>
-  <ul>
-    <li *ngFor="let game of games">
-      <a [routerLink]="['games', game.uuid]">{{ game.uuid }}</a>
-    </li>
-  </ul>
+  <table class="table">
+    <thead>
+    <tr><th>Game Id</th><th>Last Update</th><th>Players</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let game of games">
+      <td><a [routerLink]="['/games', game.uuid]">{{ game.uuid }}</a></td>
+      <td>{{ game.updated }}</td>
+      <td>{{ formattedPlayers(game) }}</td>
+      <td>{{ status(game) }}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>

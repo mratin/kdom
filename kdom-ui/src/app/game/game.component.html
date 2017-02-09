@@ -14,10 +14,10 @@
           {{ game.turn }}
 
           <div class="btn-group">
-            <button class="btn btn-default" (click)="goToPreviousTurn()">
+            <button [disabled]="!hasPreviousTurn()" class="btn btn-default" (click)="goToPreviousTurn()">
               <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
             </button>
-            <button class="btn btn-default" (click)="goToNextTurn()">
+            <button [disabled]="!hasNextTurn()" class="btn btn-default" (click)="goToNextTurn()">
               <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
             </button>
           </div>

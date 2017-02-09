@@ -18,4 +18,15 @@ export class GamesComponent implements OnInit {
     this.kdomService.getGames().then(games => this.games = games)
   }
 
+  formattedPlayers(game: Game) {
+    return game.players.map(p => p.name).join(', ');
+  }
+
+  status(game: Game) {
+    if (game.playerOnTurn) {
+      return game.playerOnTurn.name + "'s turn"
+    } else if (game.gameOver) {
+      return "Game Over"
+    }
+  }
 }

@@ -42,7 +42,7 @@ case class NewGame(uuid: String, created: String, updated: String, numberOfPlaye
 case class NewGames(newGames: Seq[NewGame]) extends JsonSerializable
 
 case class BriefGame(uuid: String, created: String, updated: String, players: Seq[Player],
-                     playerOnTurn: Option[Player], round: Int, isGameOver: Boolean) extends JsonSerializable
+                     playerOnTurn: Option[Player], round: Int, turn: Int, gameOver: Boolean) extends JsonSerializable
 
 case class BriefGames(games: Seq[BriefGame]) extends JsonSerializable
 case class Moves(moves: Seq[Move]) extends JsonSerializable
@@ -54,7 +54,9 @@ class ModelConverter() {
       players = gameState.game.players.toSeq.sortBy(_.name).map(toRepresentation),
       playerOnTurn = if (gameState.game.isAwaitingMove) Some(toRepresentation(gameState.game.currentMeeple.owner)) else None,
       round = gameState.game.round,
-      isGameOver = gameState.game.isGameOver)
+      turn = gameState.game.turn,
+      gameOver = gameState.game.isGameOver
+    )
   }
 
   def toRepresentation(newGame: se.apogo.kdom.state.NewGame): NewGame = {

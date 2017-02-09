@@ -54,5 +54,15 @@ export interface Game {
   previousDraft: Draft
   gameOver: boolean
   turn: number
+  round: number
+  players: Player[]
+  playerOnTurn: Player
 }
 
+export interface NewGame {
+  uuid: string
+  created: string
+  updated: string
+  numberOfPlayers: number
+  joinedPlayers: Player[]
+}

@@ -12,21 +12,30 @@ import {ActivatedRoute} from "@angular/router";
 export class GameComponent implements OnInit {
   @Input() uuid: string
   turn?: number
+  lastTurn?: number
 
   game: Game
 
   constructor(private kdomService: KdomService, private route: ActivatedRoute) { }
 
+  hasPreviousTurn(): boolean {
+    return this.turn > 0
+  }
+
+  hasNextTurn(): boolean {
+    return this.lastTurn != null && this.turn < this.lastTurn
+  }
+
   goToPreviousTurn() {
-    if (this.turn > 0) {
+    if (this.hasPreviousTurn()) {
       this.turn = this.turn - 1
       this.updateGame()
     }
   }
 
   goToNextTurn() {
-    if (!this.game.gameOver) {
-      this.turn = this.turn + 1
+    if (this.lastTurn != null && !this.game.gameOver) {
+      this.turn = Math.min(this.turn + 1, this.lastTurn)
       this.updateGame()
     }
   }
@@ -40,7 +49,8 @@ export class GameComponent implements OnInit {
   updateGame() {
     this.kdomService.getGame(this.uuid, this.turn).then(game => {
       this.game = game
-      this.turn = game.turn
+      if (this.lastTurn == null) this.lastTurn = this.game.turn
+      this.turn = this.game.turn
     })
   }
 }

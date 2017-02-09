@@ -8,7 +8,6 @@ RUN npm install -g angular-cli
 # Add scala source:
 ADD pom.xml /code/pom.xml
 RUN mvn dependency:resolve
-ADD src /code/src
 
 WORKDIR /code/ui
 
@@ -23,6 +22,7 @@ ADD kdom-ui/e2e /code/ui/e2e
 RUN npm install
 
 # Add source code
+ADD src /code/src
 ADD kdom-ui/src /code/ui/src
 
 # Build the app

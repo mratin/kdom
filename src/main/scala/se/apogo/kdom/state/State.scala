@@ -91,13 +91,13 @@ object State {
 
   def games: Seq[GameState] = {
     gamesById.synchronized {
-      gamesById.values.toSeq.sortBy(_.created)
+      gamesById.values.toSeq.sortBy(_.created).reverse
     }
   }
 
   def newGames: Seq[NewGame] = {
     newGamesById.synchronized {
-      newGamesById.values.filterNot(_.hasEnoughPlayers).toSeq.sortBy(_.created)
+      newGamesById.values.filterNot(_.hasEnoughPlayers).toSeq.sortBy(_.created).reverse
     }
   }
 

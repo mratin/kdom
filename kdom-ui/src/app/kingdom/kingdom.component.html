@@ -1,5 +1,9 @@
 <div>
-  <h3>{{ kingdom.player.name }}</h3>
+  <h3>
+    {{ kingdom.player.name }}
+    <br/>
+    <small>Score: {{ kingdom.score.total }}</small>
+  </h3>
   <div>
     <div *ngFor="let row of rows" style="display: block;">
       <app-tile *ngFor="let col of cols" [tile]="getTile(row, col)" style="display: inline-block;"></app-tile>

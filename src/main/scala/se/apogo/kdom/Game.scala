@@ -27,12 +27,14 @@ object Game {
 
     val (deck, currentDraft): (Deck, Draft) = Deck.newDeck(seed, deckSize).draft(numberOfMeeples)
 
-    Game(kingdoms, deck, currentDraft, Draft.empty, meeples, Nil)
+    Game(kingdoms, deck, currentDraft, Draft.empty, meeples, Nil, turn = 0).nextTurn
   }
 }
 case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previousDraft: Draft,
-                meeplesNotYetInPlay: Seq[Meeple], history: Seq[Game]) {
+                meeplesNotYetInPlay: Seq[Meeple], history: Seq[Game], turn: Int) {
+
   require(meeplesNotYetInPlay.forall(meeple => players.contains(meeple.owner)))
+
   if (isAwaitingMove) require((isFirstRound && meeplesNotYetInPlay.nonEmpty) || !isFirstRound && meeplesNotYetInPlay.isEmpty)
 
   def players: Set[Player] = kingdoms.map(_.owner)
@@ -42,6 +44,14 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
       case 2 => 4
       case 3 => 3
       case 4 => 4
+    }
+  }
+
+  def gameAtTurn(turnNumber: Int): Option[Game] = {
+    if (turn == turnNumber) {
+      Some(this)
+    } else {
+      history.find(_.turn == turnNumber)
     }
   }
 
@@ -108,15 +118,21 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
       kingdoms = (kingdoms - kingdom) + newKingdom,
       currentDraft = currentDraftAfterMove,
       previousDraft = previousDraftAfterMove,
-      meeplesNotYetInPlay = meeplesNotYetInPlay.drop(1),
-      history = history :+ this
+      meeplesNotYetInPlay = meeplesNotYetInPlay.drop(1)
     )
 
     if (gameAfterMove.isAwaitingMove || gameAfterMove.isGameOver) {
-      gameAfterMove
+      gameAfterMove.nextTurn
     } else {
-      gameAfterMove.prepareNextRound
+      gameAfterMove.prepareNextRound.nextTurn
     }
+  }
+
+  private def nextTurn: Game = {
+    copy(
+      history = history :+ this,
+      turn = turn + 1
+    )
   }
 
   def prepareNextRound: Game =
@@ -135,8 +151,7 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
     copy(
       deck = newDeck,
       currentDraft = newCurrentDraft,
-      previousDraft = currentDraft,
-      history = history :+ this
+      previousDraft = currentDraft
     )
   }
 }

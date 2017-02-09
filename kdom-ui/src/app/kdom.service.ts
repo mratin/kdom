@@ -10,8 +10,9 @@ export class KdomService {
 
   constructor(private http: Http) { }
 
-  getGame(uuid: string): Promise<Game> {
-    return this.http.get(this.apiBaseUrl + "games/" + uuid)
+  getGame(uuid: string, turn?: number): Promise<Game> {
+    let turnParam: string = turn == null? "" : "?turn=" + turn
+    return this.http.get(this.apiBaseUrl + "games/" + uuid + turnParam)
       .toPromise()
       .then(response => response.json() as Game)
       .catch(this.handleError)

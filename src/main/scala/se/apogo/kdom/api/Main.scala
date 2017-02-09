@@ -122,9 +122,13 @@ object Main extends App
   }
 
   private def findGameState(request: Request): Option[GameState] = {
+    val turnParam: Option[String] = Option(request.queryParams("turn"))
+
+    val turn: Option[Int] = turnParam.flatMap(t => Try(t.toInt).toOption)
+
     for {
       gameId    <- Option(request.params("gameId"))
-      gameState <- State.findGame(UUID.fromString(gameId))
+      gameState <- State.findGame(UUID.fromString(gameId), turn)
     } yield {
       gameState
     }

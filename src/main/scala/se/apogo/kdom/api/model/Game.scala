@@ -28,7 +28,8 @@ case class Game(uuid: String,
                 kingdoms: Seq[Kingdom],
                 currentDraft: Draft, previousDraft: Draft,
                 currentPlayer: Option[Player],
-                gameOver: Boolean)
+                gameOver: Boolean,
+                turn: Int)
   extends JsonSerializable {
 }
 
@@ -69,7 +70,8 @@ class ModelConverter() {
       currentDraft = toRepresentation(gameState.game.currentDraft),
       previousDraft = toRepresentation(gameState.game.previousDraft),
       currentPlayer = if (gameState.game.isGameOver) None else Some(toRepresentation(gameState.game.currentMeeple.owner)),
-      gameOver = gameState.game.isGameOver
+      gameOver = gameState.game.isGameOver,
+      turn = gameState.game.turn
     )
   }
 

@@ -20,7 +20,16 @@ object State {
   private val gamesById: scala.collection.concurrent.Map[UUID, GameState] = new TrieMap[UUID, GameState]()
   private val newGamesById: scala.collection.concurrent.Map[UUID, NewGame] = new TrieMap[UUID, NewGame]()
 
-  def findGame(uuid: UUID): Option[GameState] = gamesById.get(uuid)
+  def findGame(uuid: UUID, turn: Option[Int]): Option[GameState] =
+  {
+    for {
+      currentGameState <- gamesById.get(uuid)
+      turnNumber        = turn.getOrElse(currentGameState.game.turn)
+      game             <- currentGameState.game.gameAtTurn(turnNumber)
+    } yield {
+      currentGameState.copy(game = game)
+    }
+  }
 
   def createGame(numberOfPlayers: Int): NewGame = {
     newGamesById.synchronized {

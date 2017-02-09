@@ -1,9 +1,30 @@
 <div *ngIf="game">
-  <dl>
-    <dt>Game</dt><dd><code>{{ game.uuid }}</code></dd>
-    <dt>Created</dt><dd>{{ game.created }}</dd>
-    <dt>Updated</dt><dd>{{ game.updated }}</dd>
-  </dl>
+  <div class="row">
+    <div class="col-md-6">
+      <dl>
+        <dt>Game</dt><dd><code>{{ game.uuid }}</code></dd>
+        <dt>Created</dt><dd>{{ game.created }}</dd>
+        <dt>Updated</dt><dd>{{ game.updated }}</dd>
+      </dl>
+    </div>
+    <div class="col-md-6">
+      <dl>
+        <dt>Turn</dt>
+        <dd>
+          {{ game.turn }}
+
+          <div class="btn-group">
+            <button class="btn btn-default" (click)="goToPreviousTurn()">
+              <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-default" (click)="goToNextTurn()">
+              <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            </button>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-9">
       <div class="row">
@@ -16,6 +37,7 @@
       <div>
         <app-draft [draft]="game.currentDraft"></app-draft>
       </div>
+      <hr/>
       <div>
         <app-draft [draft]="game.previousDraft"></app-draft>
       </div>

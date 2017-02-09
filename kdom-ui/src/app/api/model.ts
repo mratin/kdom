@@ -53,5 +53,6 @@ export interface Game {
   currentDraft: Draft
   previousDraft: Draft
   gameOver: boolean
+  turn: number
 }
 

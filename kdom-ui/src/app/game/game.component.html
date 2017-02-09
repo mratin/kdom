@@ -1,8 +1,24 @@
 <div *ngIf="game">
-  <h2>{{ game.uuid }}</h2>
+  <dl>
+    <dt>Game</dt><dd><code>{{ game.uuid }}</code></dd>
+    <dt>Created</dt><dd>{{ game.created }}</dd>
+    <dt>Updated</dt><dd>{{ game.updated }}</dd>
+  </dl>
   <div class="row">
-    <div class="col-md-6" *ngFor="let kingdom of game.kingdoms">
-      <app-kingdom [kingdom]="kingdom"></app-kingdom>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let kingdom of game.kingdoms">
+          <app-kingdom [kingdom]="kingdom"></app-kingdom>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div>
+        <app-draft [draft]="game.currentDraft"></app-draft>
+      </div>
+      <div>
+        <app-draft [draft]="game.previousDraft"></app-draft>
+      </div>
     </div>
   </div>
 </div>

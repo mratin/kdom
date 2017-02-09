@@ -10,6 +10,8 @@ import { GameComponent } from './game/game.component';
 import { KingdomComponent } from './kingdom/kingdom.component';
 import { TileComponent } from './tile/tile.component';
 import { AlertModule } from 'ng2-bootstrap';
+import { DraftComponent } from './draft/draft.component';
+import { DraftDominoComponent } from './draft-domino/draft-domino.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { AlertModule } from 'ng2-bootstrap';
     GamesComponent,
     GameComponent,
     KingdomComponent,
-    TileComponent
+    TileComponent,
+    DraftComponent,
+    DraftDominoComponent
   ],
   imports: [
     BrowserModule,

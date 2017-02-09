@@ -68,6 +68,7 @@ object State {
         newGame <- newGamesById.get(gameId)
         if !newGame.hasEnoughPlayers
         player  = Player(playerName, callbackUrl)
+        if !newGame.joinedPlayers.exists(_.name == playerName)
       } yield {
         val updatedNewGame = newGame.copy(joinedPlayers = newGame.joinedPlayers + player, updated = Instant.now)
         newGamesById.replace(newGame.uuid, updatedNewGame)

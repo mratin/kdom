@@ -34,8 +34,8 @@ class KingdomScorer {
 
   private def computeAreaScore(kingdom: Kingdom) (area: Set[Position]): Int =
   {
-    val tiles = area.map(kingdom.placedTile)
-    val crowns = tiles.map(_.crowns).sum
+    val tiles: Seq[Tile] = area.toSeq.map(kingdom.placedTile)
+    val crowns: Int = tiles.map(_.crowns).sum
 
     crowns * tiles.size
   }

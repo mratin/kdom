@@ -42,6 +42,20 @@ class KingdomScorerTest {
   }
 
   @Test
+  def test_adjacentEqualFieldsWith1Crown_14(): Unit =
+  {
+    val kingdom = Kingdom(Player(""), Map[Position, Tile](
+      Position(0,0) -> Tile(Field, 1),
+      Position(0,1) -> Tile(Field, 1)
+    ))
+
+    val score = new KingdomScorer().score(kingdom)
+
+    Assert.assertTrue(score.total == 14)
+    Assert.assertTrue(score.areaScores.size == 1)
+  }
+
+  @Test
   def test_distinctFieldsWith1CrownEach_101(): Unit =
   {
     val kingdom = Kingdom(Player(""), Map[Position, Tile](

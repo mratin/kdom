@@ -4,7 +4,7 @@ import java.time.Instant
 import java.util.UUID
 
 import org.slf4j.{Logger, LoggerFactory}
-import se.apogo.kdom.{Game, Player}
+import se.apogo.kdom.{Game, GameListener, Player, SlackBot}
 
 import scala.collection.concurrent.TrieMap
 
@@ -19,6 +19,7 @@ object State {
 
   private val gamesById: scala.collection.concurrent.Map[UUID, GameState] = new TrieMap[UUID, GameState]()
   private val newGamesById: scala.collection.concurrent.Map[UUID, NewGame] = new TrieMap[UUID, NewGame]()
+  private val listener: Seq[GameListener] = Seq(SlackBot.fromEnv).flatten
 
   def findGame(uuid: UUID, turn: Option[Int]): Option[GameState] =
   {
@@ -50,7 +51,7 @@ object State {
       gameState
     }
 
-    notifyPlayers(updatedGameState.game)
+    notifyPlayersAndListeners(updatedGameState)
 
     updatedGameState
   }
@@ -66,7 +67,7 @@ object State {
       updatedGameState
     }
 
-    notifyPlayers(updatedGameState.game)
+    notifyPlayersAndListeners(updatedGameState)
 
     updatedGameState
   }
@@ -101,8 +102,10 @@ object State {
     }
   }
 
-  def notifyPlayers(game: Game): Unit = {
-    game.players.foreach(notify)
+  def notifyPlayersAndListeners(gameState: GameState): Unit = {
+    gameState.game.players.foreach(notify)
+
+    listener.foreach(_.gameUpdated(gameState))
   }
 
   def notify(player: Player): Unit = {

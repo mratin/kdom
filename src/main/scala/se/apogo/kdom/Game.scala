@@ -27,11 +27,11 @@ object Game {
 
     val (deck, currentDraft): (Deck, Draft) = Deck.newDeck(seed, deckSize).draft(numberOfMeeples)
 
-    Game(kingdoms, deck, currentDraft, Draft.empty, meeples, Nil, turn = 0).nextTurn
+    Game(kingdoms, deck, currentDraft, Draft.empty, Nil, meeples, Nil, turn = 0).nextTurn
   }
 }
 case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previousDraft: Draft,
-                meeplesNotYetInPlay: Seq[Meeple], history: Seq[Game], turn: Int) {
+                usedDominoes: Seq[Domino], meeplesNotYetInPlay: Seq[Meeple], history: Seq[Game], turn: Int) {
 
   require(meeplesNotYetInPlay.forall(meeple => players.contains(meeple.owner)))
 
@@ -114,10 +114,13 @@ case class Game(kingdoms: Set[Kingdom], deck: Deck, currentDraft: Draft, previou
     // During the last round, no dominoes are chosen in the current draft
     val currentDraftAfterMove: Draft = move.chosenDomino.map(chosenDomino => currentDraft.choose(move.meeple, chosenDomino)).getOrElse(Draft.empty)
 
+    val usedDominoesAfterMove: Seq[Domino] = usedDominoes ++ move.placedDomino.map(_.domino).toSeq
+
     val gameAfterMove: Game = copy(
       kingdoms = (kingdoms - kingdom) + newKingdom,
       currentDraft = currentDraftAfterMove,
       previousDraft = previousDraftAfterMove,
+      usedDominoes = usedDominoesAfterMove,
       meeplesNotYetInPlay = meeplesNotYetInPlay.drop(1)
     )
 

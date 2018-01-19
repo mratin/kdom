@@ -8,7 +8,7 @@ import se.apogo.kdom.{Game, GameListener, Player, SlackBot}
 
 import scala.collection.concurrent.TrieMap
 
-case class NewGame(uuid: UUID, created: Instant, updated: Instant, numberOfPlayers: Int, joinedPlayers: Set[Player]) {
+case class NewGame(uuid: UUID, created: Instant, updated: Instant, numberOfPlayers: Int, joinedPlayers: Set[Player], shufflePlayers: Boolean) {
   def hasEnoughPlayers: Boolean = numberOfPlayers == joinedPlayers.size
 }
 
@@ -33,10 +33,14 @@ object State {
   }
 
   def createGame(numberOfPlayers: Int): NewGame = {
+    createGame(numberOfPlayers, true)
+  }
+
+  def createGame(numberOfPlayers: Int, shufflePlayers: Boolean) = {
     newGamesById.synchronized {
       val now = Instant.now
       val uuid = UUID.randomUUID()
-      val newGame = NewGame(uuid, now, now, numberOfPlayers, Set.empty)
+      val newGame = NewGame(uuid, now, now, numberOfPlayers, Set.empty, shufflePlayers)
       newGamesById += (uuid -> newGame)
       newGame
     }
@@ -45,7 +49,7 @@ object State {
   private def startGame(newGame: NewGame): GameState = {
     require(newGame.hasEnoughPlayers)
     val updatedGameState: GameState = gamesById.synchronized {
-      val game = Game.newGame(newGame.joinedPlayers, System.currentTimeMillis())
+      val game = Game.newGame(newGame.joinedPlayers, System.currentTimeMillis(), newGame.shufflePlayers)
       val gameState = GameState(newGame.uuid, newGame.created, Instant.now, game)
       gamesById += (newGame.uuid -> gameState)
       gameState

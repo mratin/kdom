@@ -42,6 +42,8 @@ case class NewGame(uuid: String, created: String, updated: String, numberOfPlaye
 
 case class NewGames(newGames: Seq[NewGame]) extends JsonSerializable
 
+case class NewGameWithPlayers(game: NewGame, players: Seq[PlayerWithToken]) extends JsonSerializable
+
 case class BriefGame(uuid: String, created: String, updated: String, players: Seq[Player],
                      playerOnTurn: Option[Player], round: Int, turn: Int, gameOver: Boolean) extends JsonSerializable
 

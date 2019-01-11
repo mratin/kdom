@@ -44,3 +44,13 @@ This response lists all available moves for the current player. Each move has a 
          
          EXAMPLE: curl -X POST http://kdom.mratin.se/games/e1c84105-b3e7-4717-b808-64be88938e7e/players/12ea309a-8e3b-4b75-87d0-15d1670baaab/moves/2
          { <updated game-state> }
+
+
+# kdom Java Client
+
+Here is an implementation for a client in Java:
+https://github.com/tdebroc/kingdomino-ia-client
+You can see one example of Game here:
+https://github.com/tdebroc/kingdomino-ia-client/blob/master/src/test/java/Main.java
+
+

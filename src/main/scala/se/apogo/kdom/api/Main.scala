@@ -89,13 +89,33 @@ object Main extends App
 
     post("/new-games/", (request, response) => {
       toJsonWithHttpStatus(response, onSuccess = HttpStatus.CREATED_201, onFail = HttpStatus.BAD_REQUEST_400) {
-        val playerCount: String = Option(request.queryParams("playerCount")).getOrElse("4")
-        for {
-          numberOfPlayers <- Try(playerCount.toInt).toOption
-        } yield {
-          val newGame: NewGame =  State.createGame(numberOfPlayers)
+        val keepOrder = request.queryParams().contains("keepOrder")
+        val shufflePlayers = !keepOrder
+        val playersParam = request.queryParams("players")
+        if (playersParam != null) {
+          val playerNames = playersParam.split(",").toSeq
+          val numberOfPlayers = playerNames.length
+          if (2 <= numberOfPlayers && numberOfPlayers <= 4) {
+            val newGame: NewGame = State.createGame(numberOfPlayers, shufflePlayers)
+            val players: Seq[PlayerWithToken] = playerNames
+              .flatMap(playerName => State.joinGame(newGame.uuid, playerName, None))
+              .map(player => PlayerWithToken(player.name, player.uuid.toString, None))
+            val updatedGame: NewGame = State.newGames.find(_.uuid == newGame.uuid).get
+            val game = new ModelConverter().toRepresentation(updatedGame)
+            Some(NewGameWithPlayers(game, players))
+          } else {
+            // Wrong number of players
+            None
+          }
+        } else {
+          val playerCount: String = Option(request.queryParams("playerCount")).getOrElse("4")
+          for {
+            numberOfPlayers <- Try(playerCount.toInt).toOption
+          } yield {
+            val newGame: NewGame =  State.createGame(numberOfPlayers, shufflePlayers)
 
-          new ModelConverter().toRepresentation(newGame)
+            new ModelConverter().toRepresentation(newGame)
+          }
         }
       }
     })

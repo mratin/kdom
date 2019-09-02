@@ -4,11 +4,15 @@ import scala.util.Random
 
 object Game {
   def newGame(players: Set[Player], seed: Long): Game = {
+    newGame(players, seed, true)
+  }
+
+  def newGame(players: Set[Player], seed: Long, shufflePlayers: Boolean) = {
     require(2 <= players.size && players.size <= 4)
 
     val random: Random = new Random(seed)
 
-    val (meeplesPerPlayer, deckSize): (Int,Int) = {
+    val (meeplesPerPlayer, deckSize): (Int, Int) = {
       players.size match {
         case 2 => (2, 24)
         case 3 => (1, 36)
@@ -20,7 +24,14 @@ object Game {
       (for (i <- 1 to meeplesPerPlayer) yield Meeple(i, player)).toSet
     }
 
-    val meeples: Seq[Meeple] = random.shuffle(players.flatMap(playerMeeples).toSeq.sortBy(_.owner.name))
+    val meeples: Seq[Meeple] = {
+      val meeples = players.flatMap(playerMeeples).toSeq
+      if (shufflePlayers) {
+        random.shuffle(meeples.sortBy(_.owner.name))
+      } else {
+        meeples
+      }
+    }
     val numberOfMeeples: Int = meeples.size
 
     val kingdoms: Set[Kingdom] = players.map(Kingdom.start)
